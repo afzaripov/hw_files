@@ -2,7 +2,8 @@ from pprint import pprint
 
 def main():
     cook_book = get_cook_book()
-    pprint(cook_book)
+    shop_list = get_shop_list_by_dishes(cook_book, ['Фахитос', 'Омлет'], 2)
+    pprint(shop_list)
 
 
 def get_cook_book():
@@ -36,7 +37,21 @@ def get_cook_book():
     return cook_book
 
 
+def get_shop_list_by_dishes(cook_book : dict, dishes : list, person_count : int):
+    shop_list = {}
+    for dish in dishes:
+        if dish in cook_book:
+           for ingredient in  cook_book[dish]:
+                name = ingredient["ingredient_name"]
+                measure = ingredient["measure"]
+                quantity = int(ingredient["quantity"]) * person_count
+            
+                if name in shop_list:
+                    shop_list[name]["quantity"] += quantity
+                else:
+                    shop_list[name] = {"measure": measure, "quantity": quantity} 
 
+    return shop_list
 
 
 if __name__ == "__main__":
